@@ -10,44 +10,32 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 import Results from "./components/Results"
 
-class App extends React.Component {
-  constructor(props){
-    super(props)
+function App () {
+  const [theme, setTheme] = React.useState('light')
+  const toggleTheme = () => setTheme((theme) => theme === 'light' ? 'dark' : 'light')
 
-    this.state = {
-      theme: "light",
-      toggleTheme: () => {
-        this.setState(({theme}) => ({
-         theme: theme === "light" ? "dark" : "light"
-        }))
-      }
-    }
-  }
-  render() {
-    return (
-      <Router>
-        <ThemeProvider value={this.state}>
-          <div className={this.state.theme}>
-            <div className="container">
-              <Nav />
-              <Switch>
-              <Route exact path='/' component={Popular} />
-              <Route exact path='/battle' component={Battle} />
-              <Route path='/battle/results' component={Results} />
-              <Route component={FourZeroFour} />
-              </Switch>
-
-
-
-            </div>
+  return (
+    <Router>
+      <ThemeProvider value={theme}>
+        <div className={theme}>
+          <div className="container">
+            <Nav toggleTheme = {toggleTheme} />
+            <Switch>
+            <Route exact path='/' component={Popular} />
+            <Route exact path='/battle' component={Battle} />
+            <Route path='/battle/results' component={Results} />
+            <Route component={FourZeroFour} />
+            </Switch>
           </div>
+        </div>
 
-        </ThemeProvider>
-      </Router>
+      </ThemeProvider>
+    </Router>
 
 
-    )
-  }
+  )
 }
+
+
 
 ReactDOM.render(<App />, document.querySelector("#app"))
